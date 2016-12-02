@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">InstallApk</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="install_result_ok">Install OK</string>
+    <string name="uninstall_result_ok">UnInstall OK</string>
+    <string name="install_result_fault">Install fault</string>
+    <string name="uninstall_result_fault">UnInstall fault</string>
+</resources>

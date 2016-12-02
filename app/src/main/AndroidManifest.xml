@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhao.installapk"
+    android:sharedUserId="android.uid.system"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <!-- 安装 卸载 -->
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.CLEAR_APP_USER_DATA" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".ApkManageReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.zhao.MANAGE_INSTALL_SILENT" />
+                <action android:name="android.intent.action.zhao.MANAGE_UNINSTALL_SILENT"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".ApkManageService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.zhao.installapk.RUN" >
+                </action>
+                <action android:name="com.zhao.service.INSTALL_SILENCE" >
+                </action>
+                <action android:name="com.zhao.service.UN_INSTALL_SILENCE" >
+                </action>
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
