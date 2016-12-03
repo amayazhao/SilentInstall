@@ -20,13 +20,6 @@
 
 大家也可以直接拿来用，不过得用系统签名重新生成我的apk，缺点就是这样，不过已经免去了很多折腾，关于系统签名教程，[Click me](http://zhaopengcheng.top/2016/12/03/SystemSigned/)
 
-**项目地址：https://github.com/amayazhao/SilentInstall**
-
-## 简介
-
-**静默安装**用于解决android自动嵌入式智能设备远程自动升级问题，安装过程无需人为操作。本项目通过获取系统platform签名，并利用隐藏Api--PackageManage实现Apk管理服务，设备内其他程序可通过广播接口完成应用程序静默安装与卸载功能。
-
-
 ## 效果
 
 
