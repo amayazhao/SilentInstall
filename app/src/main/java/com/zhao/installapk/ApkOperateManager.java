@@ -14,6 +14,7 @@ import android.util.Log;
 
 public class ApkOperateManager {
     public static String TAG = "ApkOperateManager";
+    public static final String EXCUTOR_RESULT = "com.zhao.install.EXCUTOR_RESULT";
 
     //安装apk
     public static void installApk(Context context, String fileName) {
@@ -49,20 +50,14 @@ public class ApkOperateManager {
     //静默卸载
     public static void uninstallApkDefaul(Context context, String packageName) {
         PackageManager pm = context.getPackageManager();
-        IPackageDeleteObserver observer = new MyPackageDeleteObserver();
+        IPackageDeleteObserver observer = new MyPackageDeleteObserver(context);
         pm.deletePackage(packageName, observer, 0);
     }
 
-    //静默卸载回调
-    private static class MyPackageDeleteObserver extends IPackageDeleteObserver.Stub {
-        Context context;
-
-        @Override
-        public void packageDeleted(String packageName, int returnCode) {
-            // TODO Auto-generated method stub
-            Log.d(TAG, "returnCode = " + returnCode);//返回1代表卸载成功
-        }
-
+    private static void sendResultCode(Context context, int returnCode){
+        Intent mResultIntent = new Intent(EXCUTOR_RESULT);
+        mResultIntent.putExtra("result",returnCode);
+        context.sendBroadcast(mResultIntent);
     }
 
     //静默安装回调
@@ -82,6 +77,7 @@ public class ApkOperateManager {
         public void packageInstalled(String packageName, int returnCode)
                 throws RemoteException {
             Log.i(TAG, "returnCode = " + returnCode);//返回1代表安装成功
+            sendResultCode(context,returnCode);
             if (isOpen) {
                 // 启动目标应用
                 PackageManager packManager = context.getPackageManager();
@@ -90,5 +86,19 @@ public class ApkOperateManager {
                 context.startActivity(resolveIntent);
             }
         }
+    }
+
+    //静默卸载回调
+    private static class MyPackageDeleteObserver extends IPackageDeleteObserver.Stub {
+        Context context;
+        MyPackageDeleteObserver(Context context){
+            this.context = context;
+        }
+        @Override
+        public void packageDeleted(String packageName, int returnCode) {
+            Log.d(TAG, "returnCode = " + returnCode);//返回1代表卸载成功
+            sendResultCode(context,returnCode);
+        }
+
     }
 }
