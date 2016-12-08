@@ -9,12 +9,12 @@ android {
             storePassword 'prafly'
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.zhao.installapk"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 23
     }
     buildTypes {
         release {
@@ -25,6 +25,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:25.0.1'
-    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:support-v4:23.0.0'
+    compile 'com.android.support:design:23.0.0'
 }

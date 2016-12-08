@@ -2,6 +2,9 @@ package com.zhao.installapk;
 
 import java.io.File;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.IPackageDeleteObserver;
@@ -54,11 +57,20 @@ public class ApkOperateManager {
         pm.deletePackage(packageName, observer, 0);
     }
 
-    private static void sendResultCode(Context context, int returnCode){
+    //2秒后回馈结果
+    private static void sendResultCode(Context context, int returnCode,
+                                       String packageName) {
         Intent mResultIntent = new Intent(EXCUTOR_RESULT);
-        mResultIntent.putExtra("result",returnCode);
-        context.sendBroadcast(mResultIntent);
+        mResultIntent.putExtra("result", returnCode);
+        mResultIntent.putExtra("package", packageName);
+        AlarmManager alarmManager = (AlarmManager) context
+                .getSystemService(Service.ALARM_SERVICE);
+        PendingIntent pendingIntentExprie = PendingIntent.getBroadcast(context,
+                0, mResultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.set(AlarmManager.RTC,
+                System.currentTimeMillis() + 2 * 1000, pendingIntentExprie);
     }
+
 
     //静默安装回调
     private static class MyPakcageInstallObserver extends IPackageInstallObserver.Stub {
@@ -77,7 +89,7 @@ public class ApkOperateManager {
         public void packageInstalled(String packageName, int returnCode)
                 throws RemoteException {
             Log.i(TAG, "returnCode = " + returnCode);//返回1代表安装成功
-            sendResultCode(context,returnCode);
+            sendResultCode(context,returnCode, packageName);
             if (isOpen) {
                 // 启动目标应用
                 PackageManager packManager = context.getPackageManager();
@@ -97,7 +109,7 @@ public class ApkOperateManager {
         @Override
         public void packageDeleted(String packageName, int returnCode) {
             Log.d(TAG, "returnCode = " + returnCode);//返回1代表卸载成功
-            sendResultCode(context,returnCode);
+            sendResultCode(context,returnCode, packageName);
         }
 
     }
