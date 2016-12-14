@@ -29,7 +29,7 @@
 
 1. 生成使用系统签名的本项目Apk（比较麻烦的一点）
     - 前提条件拿到系统的签名文件：platform.pk8 platform.x509.pem（可从码源获取，一般做嵌入式的公司应该不是问题）
-    - 签名，如何制作签名， [请点击](http://zhaopengcheng.top/2016/12/03/SystemSigned/)
+    - 签名，如何制作签名， [请点击](https://my.oschina.net/blackylin/blog/176852)
 
 2. 安装后开启自动启动服务，（PS：本想做一个纯Service程序，还得继续研究一下）
 
